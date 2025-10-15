@@ -1,0 +1,32 @@
+Environment variables
+.env
+
+Byte-compiled / optimized / DLL files
+pycache/
+*.pyc
+*.pyo
+*.pyd
+*.so
+
+Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+Virtual environments
+.venv/
+venv/
+env/
+
+IDE/Editor directories
+.vscode/
+.idea/
+
+Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+macOS
+.DS_Store
