@@ -4,7 +4,7 @@ import logging
 import uuid
 from datetime import datetime
 
-# Import models from the new models.py file
+# Import models from the models.py file
 from models import BuildRequest, BuildResponse
 from services.build_service import process_build_request
 from utils.secret_verifier import verify_secret
@@ -54,10 +54,11 @@ async def handle_build_request(
             "started_at": datetime.utcnow().isoformat()
         }
 
+        # THE FIX: Convert the Pydantic model to a dictionary before passing it
         background_tasks.add_task(
             process_build_request,
             request_id,
-            request,
+            request.model_dump(),  # Use .model_dump() here
             request_tracker
         )
 
