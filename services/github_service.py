@@ -23,9 +23,7 @@ class GithubService:
             )
             logger.info(f"Created repository: {repo.html_url}")
 
-            license_content = self._create_mit_license()
-            repo.create_file("LICENSE", "Add MIT License", license_content)
-
+    
             commit_sha = self._commit_files(repo, code_files, "Add")
             
             return {
