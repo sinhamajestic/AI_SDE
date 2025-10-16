@@ -3,8 +3,8 @@ import os
 from datetime import datetime
 from typing import Dict, Any
 
-# Import the pydantic model
-from main import EvaluationNotification
+# Import the pydantic model from models.py
+from models import EvaluationNotification
 from generators.code_generator import generate_and_parse_code
 from services.github_service import GithubService
 from evaluation.notifier import notify_evaluation_service
@@ -79,7 +79,6 @@ async def process_round2_request(request_id: str, request: Dict[str, Any], attac
     })
 
 async def notify_evaluation(request: Dict[str, Any], repo_info: Dict[str, Any], pages_url: str):
-    # Use the Pydantic model to create the object
     notification_data = EvaluationNotification(
         email=request.email,
         task=request.task,

@@ -1,11 +1,11 @@
 from fastapi import FastAPI, HTTPException, BackgroundTasks
-from pydantic import BaseModel
-from typing import List, Optional
 import os
 import logging
 import uuid
 from datetime import datetime
 
+# Import models from the new models.py file
+from models import BuildRequest, BuildResponse
 from services.build_service import process_build_request
 from utils.secret_verifier import verify_secret
 
@@ -21,27 +21,6 @@ app = FastAPI(
     description="Automated application builder and deployer",
     version="1.0.0"
 )
-
-# Pydantic models for request/response
-class Attachment(BaseModel):
-    name: str
-    url: str
-
-class BuildRequest(BaseModel):
-    email: str
-    secret: str
-    task: str
-    round: int
-    nonce: str
-    brief: str
-    checks: List[str]
-    evaluation_url: str
-    attachments: List[Attachment]
-
-class BuildResponse(BaseModel):
-    status: str
-    message: str
-    request_id: Optional[str] = None
 
 # In-memory storage for request tracking
 request_tracker = {}
