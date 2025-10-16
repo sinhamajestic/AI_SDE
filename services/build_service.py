@@ -1,7 +1,10 @@
 import logging
+import os
 from datetime import datetime
 from typing import Dict, Any
 
+# Import the pydantic model
+from main import EvaluationNotification
 from generators.code_generator import generate_and_parse_code
 from services.github_service import GithubService
 from evaluation.notifier import notify_evaluation_service
@@ -76,13 +79,14 @@ async def process_round2_request(request_id: str, request: Dict[str, Any], attac
     })
 
 async def notify_evaluation(request: Dict[str, Any], repo_info: Dict[str, Any], pages_url: str):
-    notification_data = {
-        "email": request.email,
-        "task": request.task,
-        "round": request.round,
-        "nonce": request.nonce,
-        "repo_url": repo_info["repo_url"],
-        "commit_sha": repo_info["commit_sha"],
-        "pages_url": pages_url,
-    }
+    # Use the Pydantic model to create the object
+    notification_data = EvaluationNotification(
+        email=request.email,
+        task=request.task,
+        round=request.round,
+        nonce=request.nonce,
+        repo_url=repo_info["repo_url"],
+        commit_sha=repo_info["commit_sha"],
+        pages_url=pages_url,
+    )
     await notify_evaluation_service(request.evaluation_url, notification_data)
