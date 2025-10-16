@@ -10,7 +10,7 @@ genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 def generate_and_parse_code(brief: str, checks: List[str], attachments: List[str] = None, is_update: bool = False) -> List[Dict]:
     try:
-        model = genai.GenerativeModel('gemini-pro')
+        model = genai.GenerativeModel('gemini-1.0-pro')
         prompt = _create_prompt(brief, checks, attachments, is_update)
         response = model.generate_content(prompt)
 

@@ -56,7 +56,10 @@ class GithubService:
         try:
             repo_name = self._extract_repo_name_from_url(repo_url)
             repo = self.user.get_repo(repo_name)
-            repo.create_pages_site(source={"branch": "main", "path": "/"})
+            repo.edit(has_pages=True)
+            pages_source = {"branch": "main", "path": "/"}
+            repo.create_pages_site(source=pages_source)
+            
             logger.info(f"Enabled GitHub Pages for {repo_name}")
             
             pages_url = f"https://{os.getenv('GITHUB_USERNAME')}.github.io/{repo_name}/"
