@@ -54,9 +54,18 @@ class GithubService:
         try:
             repo_name = self._extract_repo_name_from_url(repo_url)
             repo = self.user.get_repo(repo_name)
-            repo.edit(has_pages=True)
-            pages_source = {"branch": "main", "path": "/"}
-            repo.create_pages_site(source=pages_source)
+
+            headers = {
+                "Authorization": f"token {os.getenv('GITHUB_TOKEN')}",
+                "Accept": "application/vnd.github.v3+json",
+            }
+            source = {"branch": "main", "path": "/"}
+            response = requests.post(
+                f"https://api.github.com/repos/{self.user.login}/{repo_name}/pages",
+                headers=headers,
+                json={"source": source},
+            )
+            response.raise_for_status()  # This will raise an error if the request fails
             
             logger.info(f"Enabled GitHub Pages for {repo_name}")
             
